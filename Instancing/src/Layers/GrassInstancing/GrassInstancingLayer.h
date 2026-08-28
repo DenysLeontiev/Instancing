@@ -28,4 +28,5 @@ private:
 	unsigned int instanceVBO;
 
 	std::vector<float> grassVertices;
+	glm::vec4 skyColor;
 };

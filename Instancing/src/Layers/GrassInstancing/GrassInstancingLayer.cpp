@@ -1,7 +1,8 @@
 #include "GrassInstancingLayer.h"
 #include <GLFW/glfw3.h>
 
-GrassInstancingLayer::GrassInstancingLayer(Camera* camera) : 
+GrassInstancingLayer::GrassInstancingLayer(Camera* camera) :
+	skyColor(0.53f, 0.81f, 0.92f, 1.0f),
 	shader("resources/shaders/grassInstancing/vertex.glsl", "resources/shaders/grassInstancing/fragment.glsl"),
 	VAO(0), meshVBO(0), instanceVBO(0),
 	grassVertices{
@@ -81,7 +82,7 @@ void GrassInstancingLayer::OnDetach() {
 }
 
 void GrassInstancingLayer::OnUpdate() {
-	glClearColor(0.53f, 0.81f, 0.92f, 1.0f);
+	glClearColor(skyColor[0], skyColor[1], skyColor[2], skyColor[3]);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 	shader.use();
