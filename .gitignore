@@ -1,0 +1,44 @@
+# Build output (anchored to the real output locations only - do NOT use bare
+# "Release/"/"Debug/" here, vendor libs like GLEW ship their .lib files inside
+# a folder literally called "Release", and an unanchored pattern would eat it)
+/Debug/
+/Release/
+/x64/
+/x86/
+/Win32/
+/Instancing/Debug/
+/Instancing/Release/
+/Instancing/x64/
+/Instancing/x86/
+/Instancing/Win32/
+/ipch/
+
+# Intermediate and output files
+*.ilk
+*.obj
+*.pdb
+*.idb
+*.log
+*.tlog
+*.recipe
+*.exe
+*.exp
+
+# Visual Studio
+.vs/
+*.user
+*.suo
+*.db
+*.opendb
+*.sdf
+*.opensdf
+*.VC.db
+*.VC.VC.opendb
+*.vcxproj.user
+
+# ImGui runtime state
+imgui.ini
+
+# OS specific files
+.DS_Store
+Thumbs.db
