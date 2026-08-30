@@ -1,6 +1,10 @@
 #pragma once
 
 #include <string>
+#include "imgui.h"
+
+#include "../Shader.h"
+#include "../Camera.h"
 
 class Layer {
 public:
@@ -10,6 +14,7 @@ public:
 	virtual void OnAttach() {}
 	virtual void OnDetach() {}
 	virtual void OnUpdate() {}
+	virtual void OnImGuiRender() {}
 
 	inline const std::string& GetName() const { return debugName; }
 

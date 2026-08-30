@@ -17,5 +17,4 @@ public:
 
 private:
 	std::vector<Layer*> layers;
-	std::vector<Layer*>::iterator layerInsert;
 };

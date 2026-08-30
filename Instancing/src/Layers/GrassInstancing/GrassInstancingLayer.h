@@ -1,8 +1,6 @@
 #pragma once
 
 #include "../Layer.h"
-#include "../../Shader.h"
-#include "../../Camera.h"
 #include "GrassInstance.h"
 
 #include <vector>
@@ -18,6 +16,7 @@ public:
 	void OnAttach();
 	void OnDetach();
 	void OnUpdate();
+	void OnImGuiRender();
 
 private:
 	Shader shader;
@@ -29,4 +28,8 @@ private:
 
 	std::vector<float> grassVertices;
 	glm::vec4 skyColor;
+
+	float grassSpread = 100.0f;
+	float scaleMin = 0.7f;
+	float scaleMax = 1.3f;
 };

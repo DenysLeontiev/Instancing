@@ -28,9 +28,9 @@ void GrassInstancingLayer::OnAttach() {
 	std::vector<GrassInstance> instances(GRASS_INSTANCES);
 
 	std::mt19937 rng(1337);
-	std::uniform_real_distribution<float> posDist(-100.0f, 100.0f);
+	std::uniform_real_distribution<float> posDist(-grassSpread, grassSpread);
 	std::uniform_real_distribution<float> rotDist(0.0f, 6.2831853f); // 0 to 2*PI
-	std::uniform_real_distribution<float> scaleDist(0.7f, 1.3f);
+	std::uniform_real_distribution<float> scaleDist(scaleMin, scaleMax);
 
 	for (int i = 0; i < GRASS_INSTANCES; i++)
 	{
@@ -41,7 +41,7 @@ void GrassInstancingLayer::OnAttach() {
 
 	glGenBuffers(1, &instanceVBO);
 	glBindBuffer(GL_ARRAY_BUFFER, instanceVBO);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(GrassInstance) * GRASS_INSTANCES, instances.data(), GL_STATIC_DRAW);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(GrassInstance) * GRASS_INSTANCES, instances.data(), GL_DYNAMIC_DRAW);
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 
 	glGenVertexArrays(1, &VAO);
@@ -102,4 +102,39 @@ void GrassInstancingLayer::OnUpdate() {
 	glBindVertexArray(VAO);
 	glDrawArraysInstanced(GL_TRIANGLE_STRIP, 0, 6, GRASS_INSTANCES);
 	glBindVertexArray(0);
+}
+
+void GrassInstancingLayer::OnImGuiRender() {
+    ImGui::Begin(GetName().c_str());
+
+    bool grassChanged = false;
+    if (ImGui::SliderFloat("Grass Spread", &grassSpread, 10.0f, 500.0f)) grassChanged = true;
+    if (ImGui::SliderFloat("Scale Min", &scaleMin, 0.1f, 2.0f)) grassChanged = true;
+    if (ImGui::SliderFloat("Scale Max", &scaleMax, 0.1f, 3.0f)) grassChanged = true;
+
+    if (grassChanged) {
+        std::vector<GrassInstance> instances(GRASS_INSTANCES);
+        std::mt19937 rng(1337);
+        std::uniform_real_distribution<float> posDist(-grassSpread, grassSpread);
+        std::uniform_real_distribution<float> rotDist(0.0f, 6.2831853f);
+        
+        if (scaleMin > scaleMax) scaleMin = scaleMax;
+        
+        std::uniform_real_distribution<float> scaleDist(scaleMin, scaleMax);
+
+        for (int i = 0; i < GRASS_INSTANCES; i++)
+        {
+            instances[i].position = glm::vec2(posDist(rng), posDist(rng));
+            instances[i].rotation = rotDist(rng);
+            instances[i].scale = scaleDist(rng);
+        }
+
+        glBindBuffer(GL_ARRAY_BUFFER, instanceVBO);
+        glBufferData(GL_ARRAY_BUFFER, sizeof(GrassInstance) * GRASS_INSTANCES, instances.data(), GL_DYNAMIC_DRAW);
+        glBindBuffer(GL_ARRAY_BUFFER, 0);
+    }
+
+    ImGui::ColorEdit4("Sky Color", &skyColor[0]);
+
+    ImGui::End();
 }

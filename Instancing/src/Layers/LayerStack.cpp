@@ -1,7 +1,7 @@
 #include "LayerStack.h"
+#include <algorithm>
 
 LayerStack::LayerStack() {
-	layerInsert = layers.begin();
 }
 
 LayerStack::~LayerStack() {
@@ -11,7 +11,7 @@ LayerStack::~LayerStack() {
 }
 
 void LayerStack::PushLayer(Layer* layer) {
-	layerInsert = layers.emplace(layerInsert, layer);
+	layers.push_back(layer);
 	layer->OnAttach();
 }
 
@@ -20,6 +20,5 @@ void LayerStack::PopLayer(Layer* layer) {
 
 	if (it != layers.end()) {
 		layers.erase(it);
-		layerInsert--;
 	}
 }

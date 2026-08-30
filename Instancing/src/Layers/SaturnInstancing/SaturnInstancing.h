@@ -2,9 +2,6 @@
 
 #include "../Layer.h"
 
-#include "../../Shader.h"
-#include "../../Camera.h"
-
 #include <vector>
 #include <random>
 #include "../../Model.h"
@@ -19,6 +16,7 @@ public:
 	void OnAttach();
 	void OnDetach();
 	void OnUpdate();
+	void OnImGuiRender();
 
 private:
 	Shader planetShader;

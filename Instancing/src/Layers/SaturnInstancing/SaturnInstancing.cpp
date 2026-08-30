@@ -3,6 +3,8 @@
 
 #include <math.h>
 
+#include <iostream>
+
 SaturnInstancing::SaturnInstancing(Camera* camera) :
 	camera(camera),
 	skyColor(0.04f, 0.02f, 0.06f, 1.0f), // 0.02f, 0.02f, 0.05f, 1.0f
@@ -19,7 +21,7 @@ SaturnInstancing::SaturnInstancing(Camera* camera) :
 }
 
 SaturnInstancing::~SaturnInstancing() {
-
+	delete[] modelMatrices;
 }
 
 void SaturnInstancing::OnAttach() {
@@ -75,7 +77,7 @@ void SaturnInstancing::OnAttach() {
 }
 
 void SaturnInstancing::OnDetach() {
-	delete modelMatrices;
+	glDeleteBuffers(1, &asteroidsVBO);
 }
 
 void SaturnInstancing::OnUpdate() {
@@ -125,4 +127,48 @@ void SaturnInstancing::OnUpdate() {
         glDrawElementsInstanced(GL_TRIANGLES, asteroidModel.meshes[i].indices.size(), GL_UNSIGNED_INT, 0, ASTEROID_INSTANCES);
         glBindVertexArray(0);
     }
+}
+
+void SaturnInstancing::OnImGuiRender() {
+    ImGui::Begin(GetName().c_str());
+
+    ImGui::SliderFloat("Planet Rotation Speed", &planetRotMultiplier, 0.0f, 100.0f);
+    ImGui::SliderFloat("Asteroids Rotation Speed", &asteroidsRotMultiplier, 0.0f, 100.0f);
+    bool beltChanged = false;
+    if (ImGui::SliderFloat("Belt height", &beltHeight, 0.0f, 10.0f)) beltChanged = true;
+    if (ImGui::SliderFloat("Radius", &radius, 0.0f, 150.0f)) beltChanged = true;
+    if (ImGui::SliderFloat("Offset", &offset, 0.0f, 50.0f)) beltChanged = true;
+
+    if (beltChanged) {
+        for (unsigned int i = 0; i < ASTEROID_INSTANCES; i++) {
+            glm::mat4 model = glm::mat4(1.0f);
+            float angle = (float)i / (float)ASTEROID_INSTANCES * 360.0f;
+            
+            int maxOffset = (int)(2 * offset * 100);
+            if (maxOffset <= 0) maxOffset = 1;
+
+            float displacement = (rand() % maxOffset) / 100.0f - offset;
+            float x = sin(angle) * radius + displacement;
+            displacement = (rand() % maxOffset) / 100.0f - offset;
+            float y = displacement * beltHeight;
+            displacement = (rand() % maxOffset) / 100.0f - offset;
+            float z = cos(angle) * radius + displacement;
+            model = glm::translate(model, glm::vec3(x, y, z));
+
+            float scale = static_cast<float>((rand() % 20) / 100.0 + 0.05);
+            model = glm::scale(model, glm::vec3(scale));
+
+            float rotAngle = static_cast<float>((rand() % 360));
+            model = glm::rotate(model, rotAngle, glm::vec3(0.4f, 0.6f, 0.8f));
+
+            modelMatrices[i] = model;
+        }
+
+        glBindBuffer(GL_ARRAY_BUFFER, asteroidsVBO);
+        glBufferData(GL_ARRAY_BUFFER, sizeof(glm::mat4) * ASTEROID_INSTANCES, &modelMatrices[0], GL_DYNAMIC_DRAW);
+    }
+
+    ImGui::ColorEdit4("Sky", &skyColor[0]);
+
+    ImGui::End();
 }

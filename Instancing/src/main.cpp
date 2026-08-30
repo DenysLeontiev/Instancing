@@ -19,6 +19,10 @@
 #include <assimp/scene.h>
 #include "Layers/SaturnInstancing/SaturnInstancing.h"
 
+#include <imgui.h>
+#include <imgui_impl_glfw.h>
+#include <imgui_impl_opengl3.h>
+
 const unsigned int SCR_WIDTH = 800;
 const unsigned int SCR_HEIGHT = 600;
 
@@ -69,12 +73,21 @@ int main()
 		return -1;
 	}
 
+	// ImGui Initialization
+	IMGUI_CHECKVERSION();
+	ImGui::CreateContext();
+	ImGuiIO& io = ImGui::GetIO(); (void)io;
+	ImGui::StyleColorsDark();
+	ImGui_ImplGlfw_InitForOpenGL(window, true);
+	ImGui_ImplOpenGL3_Init("#version 330 core");
+
 	LayerStack layerStack;
-	//GrassInstancingLayer* grassInstancingLayer = new GrassInstancingLayer(&camera);
+	GrassInstancingLayer* grassInstancingLayer = new GrassInstancingLayer(&camera);
 	SaturnInstancing* saturnInstancing = new SaturnInstancing(&camera);
 
-	//layerStack.PushLayer(grassInstancingLayer);
-	layerStack.PushLayer(saturnInstancing);
+    Layer* currentLayer = saturnInstancing;
+	layerStack.PushLayer(currentLayer);
+    int selectedLayer = 1;
 
 	while (!glfwWindowShouldClose(window))
 	{
@@ -84,13 +97,52 @@ int main()
 
 		processInput(window);
 
+		ImGui_ImplOpenGL3_NewFrame();
+		ImGui_ImplGlfw_NewFrame();
+		ImGui::NewFrame();
+        
+        ImGui::Begin("Layer Selection");
+        if (ImGui::RadioButton("Grass Instancing", &selectedLayer, 0)) {
+            if (currentLayer != grassInstancingLayer) {
+                layerStack.PopLayer(currentLayer);
+                currentLayer->OnDetach();
+                currentLayer = grassInstancingLayer;
+                layerStack.PushLayer(currentLayer);
+            }
+        }
+        if (ImGui::RadioButton("Saturn Instancing", &selectedLayer, 1)) {
+            if (currentLayer != saturnInstancing) {
+                layerStack.PopLayer(currentLayer);
+                currentLayer->OnDetach();
+                currentLayer = saturnInstancing;
+                layerStack.PushLayer(currentLayer);
+            }
+        }
+        ImGui::End();
+
 		for (Layer* layer : layerStack) {
 			layer->OnUpdate();
+			layer->OnImGuiRender();
 		}
+
+		ImGui::Render();
+		ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 
 		glfwSwapBuffers(window);
 		glfwPollEvents();
 	}
+
+    currentLayer->OnDetach();
+    if (currentLayer == grassInstancingLayer) {
+        delete saturnInstancing;
+    } else {
+        delete grassInstancingLayer;
+    }
+
+	// ImGui Cleanup
+	ImGui_ImplOpenGL3_Shutdown();
+	ImGui_ImplGlfw_Shutdown();
+	ImGui::DestroyContext();
 
 	glfwDestroyWindow(window);
 	glfwTerminate();
@@ -101,6 +153,19 @@ void processInput(GLFWwindow* window)
 {
 	if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
 		glfwSetWindowShouldClose(window, true);
+
+    static bool tabPressed = false;
+    if (glfwGetKey(window, GLFW_KEY_TAB) == GLFW_PRESS) {
+        if (!tabPressed) {
+            tabPressed = true;
+            if (glfwGetInputMode(window, GLFW_CURSOR) == GLFW_CURSOR_DISABLED)
+                glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
+            else
+                glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+        }
+    } else {
+        tabPressed = false;
+    }
 
 	bool sprint = (glfwGetKey(window, GLFW_KEY_LEFT_CONTROL) == GLFW_PRESS);
 
@@ -141,7 +206,9 @@ void mouse_callback(GLFWwindow* window, double xposIn, double yposIn)
 	lastX = xpos;
 	lastY = ypos;
 
-	camera.ProcessMouseMovement(xoffset, yoffset);
+    if (glfwGetInputMode(window, GLFW_CURSOR) == GLFW_CURSOR_DISABLED) {
+	    camera.ProcessMouseMovement(xoffset, yoffset);
+    }
 }
 
 void scroll_callback(GLFWwindow* window, double xoffset, double yoffset)
