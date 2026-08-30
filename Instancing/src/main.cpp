@@ -15,6 +15,9 @@
 #include "Layers/LayerStack.h"
 #include "Layers/GrassInstancing/GrassInstancingLayer.h"
 
+#include <assimp/Importer.hpp>
+#include <assimp/scene.h>
+
 const unsigned int SCR_WIDTH = 800;
 const unsigned int SCR_HEIGHT = 600;
 
