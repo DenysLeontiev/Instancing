@@ -17,6 +17,7 @@
 
 #include <assimp/Importer.hpp>
 #include <assimp/scene.h>
+#include "Layers/SaturnInstancing/SaturnInstancing.h"
 
 const unsigned int SCR_WIDTH = 800;
 const unsigned int SCR_HEIGHT = 600;
@@ -69,9 +70,11 @@ int main()
 	}
 
 	LayerStack layerStack;
-	GrassInstancingLayer* grassInstancingLayer = new GrassInstancingLayer(&camera);
+	//GrassInstancingLayer* grassInstancingLayer = new GrassInstancingLayer(&camera);
+	SaturnInstancing* saturnInstancing = new SaturnInstancing(&camera);
 
-	layerStack.PushLayer(grassInstancingLayer);
+	//layerStack.PushLayer(grassInstancingLayer);
+	layerStack.PushLayer(saturnInstancing);
 
 	while (!glfwWindowShouldClose(window))
 	{

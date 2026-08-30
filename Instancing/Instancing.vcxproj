@@ -154,6 +154,7 @@
     <ClCompile Include="src\Layers\GrassInstancing\GrassInstancingLayer.cpp" />
     <ClCompile Include="src\Layers\Layer.cpp" />
     <ClCompile Include="src\Layers\LayerStack.cpp" />
+    <ClCompile Include="src\Layers\SaturnInstancing\SaturnInstancing.cpp" />
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\Camera.cpp" />
     <ClCompile Include="src\Shader.cpp" />
@@ -169,6 +170,7 @@
     <ClInclude Include="src\Layers\GrassInstancing\GrassInstancingLayer.h" />
     <ClInclude Include="src\Layers\Layer.h" />
     <ClInclude Include="src\Layers\LayerStack.h" />
+    <ClInclude Include="src\Layers\SaturnInstancing\SaturnInstancing.h" />
     <ClInclude Include="src\Mesh.h" />
     <ClInclude Include="src\Model.h" />
     <ClInclude Include="src\Shader.h" />
@@ -195,6 +197,12 @@
     <ClInclude Include="src\vendor\imgui\imstb_truetype.h" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="resources\shaders\grassInstancing\fragment.glsl" />
+    <None Include="resources\shaders\grassInstancing\vertex.glsl" />
+    <None Include="resources\shaders\planetInstancing\asteroidInstancingFragment.glsl" />
+    <None Include="resources\shaders\planetInstancing\asteroidInstancingVertex.glsl" />
+    <None Include="resources\shaders\planetInstancing\planetFragment.glsl" />
+    <None Include="resources\shaders\planetInstancing\planetVertex.glsl" />
     <None Include="src\resources\shaders\grassInstancing\fragment.glsl" />
     <None Include="src\resources\shaders\grassInstancing\vertex.glsl" />
   </ItemGroup>
