@@ -225,6 +225,12 @@
     <Image Include="resources\skybox\pink\left.png" />
     <Image Include="resources\skybox\pink\right.png" />
     <Image Include="resources\skybox\pink\top.png" />
+    <Image Include="resources\skybox\space\back.png" />
+    <Image Include="resources\skybox\space\down.png" />
+    <Image Include="resources\skybox\space\front.png" />
+    <Image Include="resources\skybox\space\left.png" />
+    <Image Include="resources\skybox\space\right.png" />
+    <Image Include="resources\skybox\space\up.png" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

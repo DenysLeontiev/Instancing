@@ -13,7 +13,8 @@ SaturnInstancing::SaturnInstancing(Camera* camera) :
 	asteroidShader("resources/shaders/planetInstancing/asteroidInstancingVertex.glsl", "resources/shaders/planetInstancing/asteroidInstancingFragment.glsl"),
 	planetModel("resources/models/planet/planet.obj"),
 	asteroidModel("resources/models/rock/rock.obj"),
-    asteroidsVBO(0)
+    asteroidsVBO(0),
+    displaySkybox(true)
 {
     glEnable(GL_DEPTH_TEST);
     glDisable(GL_CULL_FACE);
@@ -27,12 +28,12 @@ SaturnInstancing::~SaturnInstancing() {
 
 void SaturnInstancing::OnAttach() {
     std::vector<std::string> faces {
-		"resources/skybox/pink/right.png",
-		"resources/skybox/pink/left.png",
-		"resources/skybox/pink/top.png",
-		"resources/skybox/pink/down.png",
-		"resources/skybox/pink/front.png",
-		"resources/skybox/pink/back.png"
+		"resources/skybox/space/right.png",
+		"resources/skybox/space/left.png",
+		"resources/skybox/space/up.png",
+		"resources/skybox/space/down.png",
+		"resources/skybox/space/back.png",
+		"resources/skybox/space/front.png"
 	};
     skybox = new Skybox(faces);
 
@@ -141,7 +142,9 @@ void SaturnInstancing::OnUpdate() {
         glBindVertexArray(0);
     }
 
-    skybox->Draw(view, projection);
+    if (displaySkybox) {
+        skybox->Draw(view, projection);
+    }
 }
 
 void SaturnInstancing::OnImGuiRender() {
@@ -149,10 +152,13 @@ void SaturnInstancing::OnImGuiRender() {
 
     ImGui::SliderFloat("Planet Rotation Speed", &planetRotMultiplier, 0.0f, 100.0f);
     ImGui::SliderFloat("Asteroids Rotation Speed", &asteroidsRotMultiplier, 0.0f, 100.0f);
+
     bool beltChanged = false;
     if (ImGui::SliderFloat("Belt height", &beltHeight, 0.0f, 10.0f)) beltChanged = true;
     if (ImGui::SliderFloat("Radius", &radius, 0.0f, 150.0f)) beltChanged = true;
     if (ImGui::SliderFloat("Offset", &offset, 0.0f, 50.0f)) beltChanged = true;
+
+    ImGui::Checkbox("Display Skybox", &displaySkybox);
 
     if (beltChanged) {
         for (unsigned int i = 0; i < ASTEROID_INSTANCES; i++) {

@@ -5,7 +5,7 @@
 GrassInstancingLayer::GrassInstancingLayer(Camera* camera) :
 	skyColor(0.53f, 0.81f, 0.92f, 1.0f),
 	shader("resources/shaders/grassInstancing/vertex.glsl", "resources/shaders/grassInstancing/fragment.glsl"),
-	VAO(0), meshVBO(0), instanceVBO(0),
+	VAO(0), meshVBO(0), instanceVBO(0), displaySkybox(true),
 	grassVertices{
 		-0.10f, 0.0f, 0.0f,  0.2f, 0.8f, 0.2f,
 		 0.10f, 0.0f, 0.0f,  0.2f, 0.8f, 0.2f,
@@ -116,7 +116,9 @@ void GrassInstancingLayer::OnUpdate() {
 	glDrawArraysInstanced(GL_TRIANGLE_STRIP, 0, 6, GRASS_INSTANCES);
 	glBindVertexArray(0);
 
-	skybox->Draw(view, projection);
+	if (displaySkybox) {
+		skybox->Draw(view, projection);
+	}
 }
 
 void GrassInstancingLayer::OnImGuiRender() {
@@ -126,6 +128,9 @@ void GrassInstancingLayer::OnImGuiRender() {
     if (ImGui::SliderFloat("Grass Spread", &grassSpread, 10.0f, 500.0f)) grassChanged = true;
     if (ImGui::SliderFloat("Scale Min", &scaleMin, 0.1f, 2.0f)) grassChanged = true;
     if (ImGui::SliderFloat("Scale Max", &scaleMax, 0.1f, 3.0f)) grassChanged = true;
+
+	ImGui::Checkbox("Display Skybox", &displaySkybox);
+
 
     if (grassChanged) {
         std::vector<GrassInstance> instances(GRASS_INSTANCES);

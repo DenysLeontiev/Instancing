@@ -44,4 +44,6 @@ private:
 
 	float radius = 40.0f;
 	float offset = 5.0f;
+
+	bool displaySkybox = true;
 };

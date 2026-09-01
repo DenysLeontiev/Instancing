@@ -26,6 +26,8 @@ private:
 	Shader shader;
 	Camera* camera;
 
+	Skybox* skybox;
+
 	unsigned int VAO;
 	unsigned int meshVBO;
 	unsigned int instanceVBO;
@@ -37,5 +39,5 @@ private:
 	float scaleMin = 0.7f;
 	float scaleMax = 1.3f;
 
-	Skybox* skybox;
+	bool displaySkybox = true;
 };
