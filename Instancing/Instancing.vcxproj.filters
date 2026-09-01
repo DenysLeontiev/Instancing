@@ -33,6 +33,30 @@
     <ClCompile Include="src\Shader.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\Layers\GrassInstancing\GrassInstancingLayer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Layers\Layer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Layers\LayerStack.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Layers\SaturnInstancing\SaturnInstancing.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Mesh.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Model.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Helpers.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Skybox.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\vendor\stb\stb_image.cpp">
@@ -97,9 +121,82 @@
     <ClInclude Include="src\Shader.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\Layers\GrassInstancing\GrassInstance.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Layers\GrassInstancing\GrassInstancingLayer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Layers\Layer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Layers\LayerStack.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Layers\SaturnInstancing\SaturnInstancing.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Mesh.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Model.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Helpers.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Skybox.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <None Include="src\resources\shaders\vertex.glsl" />
-    <None Include="src\resources\shaders\fragment.glsl" />
+    <None Include="resources\shaders\grassInstancing\fragment.glsl" />
+    <None Include="resources\shaders\grassInstancing\vertex.glsl" />
+    <None Include="resources\shaders\planetInstancing\asteroidInstancingFragment.glsl" />
+    <None Include="resources\shaders\planetInstancing\asteroidInstancingVertex.glsl" />
+    <None Include="resources\shaders\planetInstancing\planetFragment.glsl" />
+    <None Include="resources\shaders\planetInstancing\planetVertex.glsl" />
+    <None Include="src\resources\shaders\grassInstancing\fragment.glsl" />
+    <None Include="src\resources\shaders\grassInstancing\vertex.glsl" />
+    <None Include="resources\shaders\skybox\skyboxVertex.glsl" />
+    <None Include="resources\shaders\skybox\skyboxFragment.glsl" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="resources\skybox\day\back.jpg">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="resources\skybox\day\bottom.jpg">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="resources\skybox\day\front.jpg">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="resources\skybox\day\left.jpg">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="resources\skybox\day\right.jpg">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="resources\skybox\day\top.jpg">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="resources\skybox\pink\back.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="resources\skybox\pink\down.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="resources\skybox\pink\front.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="resources\skybox\pink\left.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="resources\skybox\pink\right.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="resources\skybox\pink\top.png">
+      <Filter>Resource Files</Filter>
+    </Image>
   </ItemGroup>
 </Project>

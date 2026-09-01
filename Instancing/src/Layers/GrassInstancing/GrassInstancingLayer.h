@@ -2,9 +2,13 @@
 
 #include "../Layer.h"
 #include "GrassInstance.h"
+#include "../../Skybox.h"
 
 #include <vector>
 #include <random>
+#include <string>
+#include <iostream>
+#include <stb_image.h>
 
 class GrassInstancingLayer : public Layer {
 public:
@@ -32,4 +36,6 @@ private:
 	float grassSpread = 100.0f;
 	float scaleMin = 0.7f;
 	float scaleMax = 1.3f;
+
+	Skybox* skybox;
 };

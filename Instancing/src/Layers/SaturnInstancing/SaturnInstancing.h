@@ -2,6 +2,7 @@
 
 #include "../Layer.h"
 
+#include "../../Skybox.h"
 #include <vector>
 #include <random>
 #include "../../Model.h"
@@ -21,6 +22,8 @@ public:
 private:
 	Shader planetShader;
 	Shader asteroidShader;
+
+	Skybox* skybox;
 
 	Camera* camera;
 

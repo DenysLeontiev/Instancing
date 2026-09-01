@@ -4,6 +4,7 @@
 #include <math.h>
 
 #include <iostream>
+#include "../../Helpers.h"
 
 SaturnInstancing::SaturnInstancing(Camera* camera) :
 	camera(camera),
@@ -25,6 +26,16 @@ SaturnInstancing::~SaturnInstancing() {
 }
 
 void SaturnInstancing::OnAttach() {
+    std::vector<std::string> faces {
+		"resources/skybox/pink/right.png",
+		"resources/skybox/pink/left.png",
+		"resources/skybox/pink/top.png",
+		"resources/skybox/pink/down.png",
+		"resources/skybox/pink/front.png",
+		"resources/skybox/pink/back.png"
+	};
+    skybox = new Skybox(faces);
+
     for (unsigned int i = 0; i < ASTEROID_INSTANCES; i++) {
         glm::mat4 model = glm::mat4(1.0f);
         float angle = (float)i / (float)ASTEROID_INSTANCES * 360.0f;
@@ -78,6 +89,8 @@ void SaturnInstancing::OnAttach() {
 
 void SaturnInstancing::OnDetach() {
 	glDeleteBuffers(1, &asteroidsVBO);
+
+	delete skybox;
 }
 
 void SaturnInstancing::OnUpdate() {
@@ -127,6 +140,8 @@ void SaturnInstancing::OnUpdate() {
         glDrawElementsInstanced(GL_TRIANGLES, asteroidModel.meshes[i].indices.size(), GL_UNSIGNED_INT, 0, ASTEROID_INSTANCES);
         glBindVertexArray(0);
     }
+
+    skybox->Draw(view, projection);
 }
 
 void SaturnInstancing::OnImGuiRender() {

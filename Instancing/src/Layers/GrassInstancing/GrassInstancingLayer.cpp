@@ -1,5 +1,6 @@
 #include "GrassInstancingLayer.h"
 #include <GLFW/glfw3.h>
+#include "../../Helpers.h"
 
 GrassInstancingLayer::GrassInstancingLayer(Camera* camera) :
 	skyColor(0.53f, 0.81f, 0.92f, 1.0f),
@@ -25,6 +26,16 @@ GrassInstancingLayer::~GrassInstancingLayer() {
 }
 
 void GrassInstancingLayer::OnAttach() {
+	std::vector<std::string> faces {
+		"resources/skybox/day/right.jpg",
+		"resources/skybox/day/left.jpg",
+		"resources/skybox/day/top.jpg",
+		"resources/skybox/day/bottom.jpg",
+		"resources/skybox/day/front.jpg",
+		"resources/skybox/day/back.jpg"
+	};
+	skybox = new Skybox(faces);
+
 	std::vector<GrassInstance> instances(GRASS_INSTANCES);
 
 	std::mt19937 rng(1337);
@@ -79,6 +90,8 @@ void GrassInstancingLayer::OnDetach() {
 	glDeleteVertexArrays(1, &VAO);
 	glDeleteBuffers(1, &meshVBO);
 	glDeleteBuffers(1, &instanceVBO);
+
+	delete skybox;
 }
 
 void GrassInstancingLayer::OnUpdate() {
@@ -102,6 +115,8 @@ void GrassInstancingLayer::OnUpdate() {
 	glBindVertexArray(VAO);
 	glDrawArraysInstanced(GL_TRIANGLE_STRIP, 0, 6, GRASS_INSTANCES);
 	glBindVertexArray(0);
+
+	skybox->Draw(view, projection);
 }
 
 void GrassInstancingLayer::OnImGuiRender() {
