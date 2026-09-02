@@ -34,7 +34,9 @@
 *.opensdf
 *.VC.db
 *.VC.VC.opendb
-*.vcxproj.user
+**.vcxproj.user
+**.vcxproj
+**.vcxproj.filters
 
 # ImGui runtime state
 imgui.ini
@@ -42,3 +44,7 @@ imgui.ini
 # OS specific files
 .DS_Store
 Thumbs.db
+
+/build
+Instancing.sln
+**.sln
