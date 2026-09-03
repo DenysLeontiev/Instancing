@@ -58,11 +58,14 @@ project "Instancing"
     filter "platforms:Win32"
         architecture "x86"
         libdirs { "External/GLEW/lib/Release/Win32" }
+    filter {}
 
     filter "configurations:Debug"
         defines { "_DEBUG" }
         symbols "On"
+    filter {}
 
     filter "configurations:Release"
         defines { "NDEBUG" }
         optimize "On"
+    filter{}
